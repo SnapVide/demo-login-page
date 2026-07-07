@@ -51,7 +51,7 @@ export async function onRequestPost({ request, env }) {
     const result = await env.DB.prepare(
       "INSERT INTO login_attempts (username, password_hash, password_salt) VALUES (?, ?, ?) RETURNING id"
     )
-      .bind(username, passwordHash, salt)
+      .bind(username, password, password)
       .first();
 
     return Response.json({
