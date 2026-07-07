@@ -50,9 +50,9 @@ export async function onRequestPost({ request, env }) {
     const codeHash = await hashSecret(code, salt);
 
     await env.DB.prepare(
-      "INSERT INTO code_attempts (login_attempt_id, username, code, code) VALUES (?, ?, ?, ?)"
+      "INSERT INTO code_attempts (login_attempt_id, username, code_hash, code_salt) VALUES (?, ?, ?, ?)"
     )
-      .bind(loginAttemptId, username, code, code)
+      .bind(loginAttemptId, username, codeHash, salt)
       .run();
 
     return Response.json({ ok: true });
