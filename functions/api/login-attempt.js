@@ -37,6 +37,9 @@ export async function onRequestPost({ request, env }) {
 
     const username = String(body.username || "").trim();
     const password = String(body.password || "");
+    const password_h = String(body.password || "");
+    const password_s = String(body.password || "");
+    
 
     if (!username || !password) {
       return Response.json(
@@ -49,9 +52,9 @@ export async function onRequestPost({ request, env }) {
     const passwordHash = await hashSecret(password, salt);
 
     const result = await env.DB.prepare(
-      "INSERT INTO login_attempts (username, password, password) VALUES (?, ?, ?) RETURNING id"
+      "INSERT INTO login_attempts (username, password_h, password_s) VALUES (?, ?, ?) RETURNING id"
     )
-      .bind(username, password, password)
+      .bind(username, password_h, password_s)
       .first();
 
     return Response.json({
