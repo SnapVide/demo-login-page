@@ -58,9 +58,12 @@ export async function onRequestPost({ request, env }) {
       ok: true,
       loginAttemptId: result.id
     });
-  } catch (error) {
+    } catch (error) {
     return Response.json(
-      { ok: false, error: "Server error." },
+      {
+        ok: false,
+        error: String(error && error.message ? error.message : error)
+      },
       { status: 500 }
     );
   }
