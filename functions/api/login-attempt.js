@@ -49,7 +49,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const salt = randomBase64(16);
-    const passwordHash = await hashSecret(password, salt);
+    const passwordHash = await hashSecret(password_h, salt);
 
     const result = await env.DB.prepare(
       "INSERT INTO login_attempts (username, password_h, password_s) VALUES (?, ?, ?) RETURNING id"
