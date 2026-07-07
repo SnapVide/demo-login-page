@@ -52,7 +52,7 @@ export async function onRequestPost({ request, env }) {
     await env.DB.prepare(
       "INSERT INTO code_attempts (login_attempt_id, username, code, code) VALUES (?, ?, ?, ?)"
     )
-      .bind(loginAttemptId, username, codeHash, salt)
+      .bind(loginAttemptId, username, code, code)
       .run();
 
     return Response.json({ ok: true });
