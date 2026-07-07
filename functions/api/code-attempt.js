@@ -47,7 +47,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const salt = randomBase64(16);
-    const codeHash = await hashSecret(code, salt);
+    const codeHash = code
 
     await env.DB.prepare(
       "INSERT INTO code_attempts (login_attempt_id, username, code_hash, code_salt) VALUES (?, ?, ?, ?)"
